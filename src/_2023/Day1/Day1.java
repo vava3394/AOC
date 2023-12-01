@@ -1,3 +1,5 @@
+package _2023.Day1;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,7 +13,7 @@ public class Day1 {
     public static void main(String[] args) {
         Scanner in;
         try {
-            in = new Scanner(new File("input.txt"));
+            in = new Scanner(new File("_2023\\Day1\\input.txt"));
 
             ArrayList<String> lines = new ArrayList<String>();
             int solution1 = 0;
