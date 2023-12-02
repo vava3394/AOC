@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * author vportal
+ */
 public class Day1 {
 
     private static enum NUMBER {

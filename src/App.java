@@ -5,7 +5,8 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 /**
- * Hello world!
+ * author vportal
+ * https://adventofcode.com/
  *
  */
 public class App {
