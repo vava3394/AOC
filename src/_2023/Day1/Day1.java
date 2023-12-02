@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import outils.number.IsNumber;
+
 /**
  * author vportal
  */
@@ -39,12 +41,17 @@ public class Day1 {
         }
     }
 
+    /*
+     * Sur chaque ligne, la valeur d'étalonnage peut être trouvée en combinant
+     * premier chiffre et le dernier chiffre (dans cet ordre) pour former un seul
+     * numéro à deux chiffres.
+     */
     private static int getNumberPart1(String input) {
         int p1 = 0;
         int p2 = 0;
         for (int i = 0; i < input.length(); i++) {
             String c = "" + input.charAt(i);
-            if (isNumber(c)) {
+            if (IsNumber.isNumber(c)) {
                 p1 = Integer.parseInt(c);
                 break;
             }
@@ -52,7 +59,7 @@ public class Day1 {
         }
         for (int i = input.length() - 1; i >= 0; i--) {
             String c = "" + input.charAt(i);
-            if (isNumber(c)) {
+            if (IsNumber.isNumber(c)) {
                 p2 = Integer.parseInt(c);
                 break;
             }
@@ -62,12 +69,20 @@ public class Day1 {
         return p1 * 10 + p2;
     }
 
+    /*
+     * Votre calcul n'est pas tout à fait correct. Il semble que certains des
+     * chiffres sont en fait épelé avec des lettres: one, two, three, four, five,
+     * six, seven, eight, et nine aussi compter comme "chiffres" valides".
+     * 
+     * Equipé de ces nouvelles informations, vous devez maintenant trouver le
+     * premier et le dernier chiffre réel sur chaque ligne.
+     */
     private static int getNumberPart2(String input) {
         int p1 = 0;
         int p2 = 0;
         for (int i = 0; i < input.length(); i++) {
             String c = "" + input.charAt(i);
-            if (isNumber(c)) {
+            if (IsNumber.isNumber(c)) {
                 p1 = Integer.parseInt(c);
                 break;
             } else {
@@ -85,7 +100,7 @@ public class Day1 {
         }
         for (int i = input.length() - 1; i >= 0; i--) {
             String c = "" + input.charAt(i);
-            if (isNumber(c)) {
+            if (IsNumber.isNumber(c)) {
                 p2 = Integer.parseInt(c);
                 break;
             } else {
@@ -102,14 +117,5 @@ public class Day1 {
         }
 
         return p1 * 10 + p2;
-    }
-
-    public static boolean isNumber(String val) {
-        try {
-            Integer.parseInt(val);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 }

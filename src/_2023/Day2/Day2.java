@@ -69,10 +69,13 @@ public class Day2 {
      */
     private static int part1(String gameString, String tiragesString) {
         int nbGame = getNumberGame(gameString);
-        if (validGame(tiragesString)) {
-            return nbGame;
+        String[] tirages = Split.splitString(tiragesString, ";");
+        for (String tirage : tirages) {
+            if (!validTirage(tirage)) {
+                return 0;
+            }
         }
-        return 0;
+        return nbGame;
     }
 
     /*
@@ -108,17 +111,7 @@ public class Day2 {
                 * colorNumbers.get(ColorCube.blue.name());
     }
 
-    private static boolean validGame(String tiragesString) {
-        String[] tirages = Split.splitString(tiragesString, ";");
-        for (String tirage : tirages) {
-            if (!validCube(tirage)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean validCube(String tirage) {
+    private static boolean validTirage(String tirage) {
         Map<String, Integer> colorNumbers = new HashMap<>();
 
         Pattern pattern = Pattern.compile("(\\d+)\\s+(\\w+)");
@@ -132,15 +125,12 @@ public class Day2 {
             colorNumbers.put(color, colorNumbers.getOrDefault(color, 0) + number);
         }
 
-        if (colorNumbers.containsKey(ColorCube.red.name()) && colorNumbers.get(ColorCube.red.name()) > 12) {
+        if ((colorNumbers.containsKey(ColorCube.red.name()) && colorNumbers.get(ColorCube.red.name()) > 12)
+                || (colorNumbers.containsKey(ColorCube.green.name()) && colorNumbers.get(ColorCube.green.name()) > 13)
+                || (colorNumbers.containsKey(ColorCube.blue.name()) && colorNumbers.get(ColorCube.blue.name()) > 14)) {
             return false;
         }
-        if (colorNumbers.containsKey(ColorCube.green.name()) && colorNumbers.get(ColorCube.green.name()) > 13) {
-            return false;
-        }
-        if (colorNumbers.containsKey(ColorCube.blue.name()) && colorNumbers.get(ColorCube.blue.name()) > 14) {
-            return false;
-        }
+
         return true;
     }
 

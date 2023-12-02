@@ -6,8 +6,7 @@ import javax.tools.ToolProvider;
 
 /**
  * author vportal
- * https://adventofcode.com/
- *
+ * 
  */
 public class App {
     public static void main(String[] args) {
