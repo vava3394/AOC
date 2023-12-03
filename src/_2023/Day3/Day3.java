@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import outils.matrix.Matrix;
+
 /**
  * author vportal
  * 
@@ -25,11 +27,8 @@ public class Day3 {
                 line = in.nextLine();
                 lines.add(line);
             }
-            List<List<String>> mx = new ArrayList<>();
-            for (String ln : lines) {
-                mx.add(getLineMatrix(ln));
-            }
-            // System.out.println(mx);
+            List<List<String>> mx = Matrix.createListMatrix(lines);
+
             solution1 = part1(mx);
             solution2 = part2(mx);
 
@@ -67,7 +66,6 @@ public class Day3 {
 
     private static int part2(List<List<String>> mx) {
         int res = 0;
-
         for (int row = 0; row < mx.size(); row++) {
             for (int col = 0; col < mx.get(row).size(); col++) {
                 if (mx.get(row).get(col).equals("*")) {
@@ -75,7 +73,6 @@ public class Day3 {
                 }
             }
         }
-
         return res;
     }
 
@@ -110,11 +107,7 @@ public class Day3 {
             }
         }
         if (dejaVu.size() > 1) {
-            int p = 1;
-            for (Integer integer : dejaVu) {
-                p *= integer;
-            }
-            return p;
+            return dejaVu.stream().reduce(1, (a, b) -> a * b);
         }
         return 0;
     }
@@ -130,16 +123,5 @@ public class Day3 {
             }
         }
         return false;
-    }
-
-    private static List<String> getLineMatrix(String line) {
-        List<String> res = new ArrayList<>();
-
-        while (line.length() > 0) {
-            String element = line.substring(0, 1);
-            res.add(element);
-            line = line.substring(1);
-        }
-        return res;
     }
 }
