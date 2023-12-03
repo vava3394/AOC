@@ -3,7 +3,6 @@ package _2023.Day2;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -15,9 +14,6 @@ import outils.split.Split;
 /**
  * author vportal
  * 
- * Déterminez quels jeux auraient été possibles si le sac avait été chargé avec
- * seulement 12 cubes rouges, 13 cubes verts et 14 cubes bleus. Quelle est la
- * somme des ID de ces jeux?
  */
 public class Day2 {
 
