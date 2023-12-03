@@ -80,8 +80,7 @@ public class Day3 {
         List<Integer> dejaVu = new ArrayList<>();
         for (int row = i - 1; row <= i + 1; row++) {
             for (int col = j - 1; col <= j + 1; col++) {
-                if (row >= 0 && row < mx.size() && col >= 0
-                        && col < mx.get(i).size() && (row != i || col != j)) {
+                if (row >= 0 && row < mx.size() && col >= 0 && col < mx.get(i).size() && (row != i || col != j)) {
                     String numberString = "";
                     if (mx.get(row).get(col).matches("\\d+")) {
                         numberString = mx.get(row).get(col);

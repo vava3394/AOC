@@ -3,6 +3,10 @@ package outils.matrix;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * author vportal
+ * 
+ */
 public class Matrix {
 
     public static List<List<String>> createListMatrix(List<String> input) {
