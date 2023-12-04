@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Handler;
-
-import outils.matrix.Matrix;
 import outils.number.MyNumber;;
 
 /**
@@ -44,45 +41,56 @@ public class Day4 {
     private static int part1(ArrayList<String> lines) {
         int res = 0;
         for (String line : lines) {
-
-            int colonIndex = line.indexOf(":");
-            String tiragesString = "";
-            List<Integer> tirageWin = new ArrayList<>();
-            List<Integer> tirage = new ArrayList<>();
-            if (colonIndex != -1) {
-                tiragesString = line.substring(colonIndex);
-            } else {
-                throw new IllegalArgumentException("Le ':' n'est pas présent dans la chaîne.");
-            }
-            int colonIndexTirage = tiragesString.indexOf("|");
-            if (colonIndexTirage != -1) {
-                tirageWin = MyNumber.extractIntegersToList(tiragesString.substring(0, colonIndexTirage));
-                tirage = MyNumber.extractIntegersToList(tiragesString.substring(colonIndexTirage));
-            } else {
-                throw new IllegalArgumentException("Le '|' n'est pas présent dans la chaîne.");
-            }
-
-            res += getNumberIdentic(tirageWin, tirage);
+            DataGame dataGame = new DataGame(line);
+            res += getPointsOfWin(dataGame.tirageWin, dataGame.tirage);
         }
 
         return res;
     }
 
-    private static int getNumberIdentic(List<Integer> tirageWin, List<Integer> tirage) {
-        int points = 0;
-        for (Integer element : tirage) {
-            if (tirageWin.contains(element)) {
-                if (points == 0) {
-                    points = 1;
-                } else {
-                    points *= 2;
+    private static int part2(List<String> lines) {
+        HashMap<Integer, Integer> cartes = new HashMap<>();
+
+        for (String line : lines) {
+
+            DataGame dataGame = new DataGame(line);
+
+            if (!cartes.containsKey(dataGame.game)) {
+                cartes.put(dataGame.game, 1);
+            } else {
+                cartes.put(dataGame.game, cartes.get(dataGame.game) + 1);
+            }
+
+            int numberWin = getNumberWin(dataGame.tirageWin, dataGame.tirage);
+            for (int nbCopies = 0; nbCopies < cartes.get(dataGame.game); nbCopies++) {
+                for (int indexCopie = 1; indexCopie <= numberWin; indexCopie++) {
+                    if (dataGame.game + indexCopie < lines.size()) {
+                        if (!cartes.containsKey(dataGame.game + indexCopie))
+                            cartes.put(dataGame.game + indexCopie, 1);
+                        else
+                            cartes.put(dataGame.game + indexCopie, cartes.get(dataGame.game + indexCopie) + 1);
+                    }
                 }
             }
+
         }
-        return points;
+        return cartes.values().stream().reduce(0, (a, b) -> a + b);
     }
 
-    private static int getNumberIdentic2(List<Integer> tirageWin, List<Integer> tirage) {
+    private static int getPointsOfWin(List<Integer> tirageWin, List<Integer> tirage) {
+        int nbWin = getNumberWin(tirageWin, tirage);
+        if (nbWin > 0) {
+            int points = 1;
+            for (int i = 0; i < nbWin - 1; i++) {
+                points *= 2;
+            }
+            return points;
+        }
+
+        return 0;
+    }
+
+    private static int getNumberWin(List<Integer> tirageWin, List<Integer> tirage) {
         int points = 0;
         for (Integer element : tirage) {
             if (tirageWin.contains(element)) {
@@ -96,18 +104,16 @@ public class Day4 {
         return points;
     }
 
-    private static int part2(List<String> lines) {
-        int res = 0;
-        HashMap<Integer, Integer> cartes = new HashMap<>();
+    private static class DataGame {
+        String tiragesString = "";
+        int game;
+        List<Integer> tirageWin = new ArrayList<>();
+        List<Integer> tirage = new ArrayList<>();
 
-        for (String line : lines) {
+        public DataGame(String line) {
             int colonIndex = line.indexOf(":");
-            String tiragesString = "";
-            int game;
-            List<Integer> tirageWin = new ArrayList<>();
-            List<Integer> tirage = new ArrayList<>();
             if (colonIndex != -1) {
-                game = MyNumber.getNumberGame(line.substring(0, colonIndex));
+                game = MyNumber.getNumberGame(line.substring(0, colonIndex)) - 1;
                 tiragesString = line.substring(colonIndex);
             } else {
                 throw new IllegalArgumentException("Le ':' n'est pas présent dans la chaîne.");
@@ -119,32 +125,7 @@ public class Day4 {
             } else {
                 throw new IllegalArgumentException("Le '|' n'est pas présent dans la chaîne.");
             }
-
-            if (!cartes.containsKey(game)) {
-                cartes.put(game, 1);
-            } else {
-                cartes.put(game, cartes.get(game) + 1);
-            }
-
-            int numberWin = getNumberIdentic2(tirageWin, tirage);
-            for (int i = 0; i < cartes.get(game); i++) {
-                for (int j = 1; j <= numberWin; j++) {
-                    if (game - 1 + j < lines.size()) {
-                        if (!cartes.containsKey(game + j))
-                            cartes.put(game + j, 1);
-                        else
-                            cartes.put(game + j, cartes.get(game + j) + 1);
-                    }
-                }
-            }
-
-        }
-        System.out.println(cartes);
-        for (Integer value : cartes.values()) {
-            res += value;
         }
 
-        return res;
     }
-
 }
