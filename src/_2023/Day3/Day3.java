@@ -27,7 +27,7 @@ public class Day3 {
                 line = in.nextLine();
                 lines.add(line);
             }
-            List<List<String>> mx = Matrix.createListMatrix(lines);
+            String[][] mx = Matrix.createMatrix(lines);
 
             solution1 = part1(mx);
             solution2 = part2(mx);
@@ -39,15 +39,15 @@ public class Day3 {
         }
     }
 
-    private static int part1(List<List<String>> mx) {
+    private static int part1(String[][] mx) {
         int res = 0;
-        for (int row = 0; row < mx.size(); row++) {
-            for (int col = 0; col < mx.get(row).size(); col++) {
-                if (mx.get(row).get(col).matches("\\d+")) {
+        for (int row = 0; row < mx.length; row++) {
+            for (int col = 0; col < mx[row].length; col++) {
+                if (mx[row][col].matches("\\d+")) {
                     int i = 0;
                     String number = "";
-                    while (col + i < mx.get(row).size() && mx.get(row).get(col + i).matches("\\d+")) {
-                        number += mx.get(row).get(col + i);
+                    while (col + i < mx[row].length && mx[row][col + i].matches("\\d+")) {
+                        number += mx[row][col + i];
                         i++;
                     }
                     for (int j = col; j < col + i; j++) {
@@ -64,11 +64,11 @@ public class Day3 {
         return res;
     }
 
-    private static int part2(List<List<String>> mx) {
+    private static int part2(String[][] mx) {
         int res = 0;
-        for (int row = 0; row < mx.size(); row++) {
-            for (int col = 0; col < mx.get(row).size(); col++) {
-                if (mx.get(row).get(col).equals("*")) {
+        for (int row = 0; row < mx.length; row++) {
+            for (int col = 0; col < mx[row].length; col++) {
+                if (mx[row][col].equals("*")) {
                     res += getEngrenage(mx, row, col);
                 }
             }
@@ -76,24 +76,24 @@ public class Day3 {
         return res;
     }
 
-    private static int getEngrenage(List<List<String>> mx, int i, int j) {
+    private static int getEngrenage(String[][] mx, int i, int j) {
         List<Integer> dejaVu = new ArrayList<>();
         for (int row = i - 1; row <= i + 1; row++) {
             for (int col = j - 1; col <= j + 1; col++) {
-                if (row >= 0 && row < mx.size() && col >= 0 && col < mx.get(i).size() && (row != i || col != j)) {
+                if (row >= 0 && row < mx.length && col >= 0 && col < mx[i].length && (row != i || col != j)) {
                     String numberString = "";
-                    if (mx.get(row).get(col).matches("\\d+")) {
-                        numberString = mx.get(row).get(col);
-                        if (col - 1 >= 0 && mx.get(row).get(col - 1).matches("\\d+")) {
-                            numberString = mx.get(row).get(col - 1).concat(numberString);
-                            if (col - 2 >= 0 && mx.get(row).get(col - 2).matches("\\d+"))
-                                numberString = mx.get(row).get(col - 2).concat(numberString);
+                    if (mx[row][col].matches("\\d+")) {
+                        numberString = mx[row][col];
+                        if (col - 1 >= 0 && mx[row][col - 1].matches("\\d+")) {
+                            numberString = mx[row][col - 1].concat(numberString);
+                            if (col - 2 >= 0 && mx[row][col - 2].matches("\\d+"))
+                                numberString = mx[row][col - 2].concat(numberString);
                         }
 
-                        if (col + 1 < mx.get(i).size() && mx.get(row).get(col + 1).matches("\\d+")) {
-                            numberString += mx.get(row).get(col + 1);
-                            if (col + 2 < mx.get(i).size() && mx.get(row).get(col + 2).matches("\\d+"))
-                                numberString += mx.get(row).get(col + 2);
+                        if (col + 1 < mx[row].length && mx[row][col + 1].matches("\\d+")) {
+                            numberString += mx[row][col + 1];
+                            if (col + 2 < mx[row].length && mx[row][col + 2].matches("\\d+"))
+                                numberString += mx[row][col + 2];
                         }
                         if (numberString != "") {
                             int number = Integer.parseInt(numberString);
@@ -111,11 +111,11 @@ public class Day3 {
         return 0;
     }
 
-    private static boolean isSymAround(List<List<String>> mx, int i, int j) {
+    private static boolean isSymAround(String[][] mx, int i, int j) {
         for (int row = i - 1; row <= i + 1; row++) {
             for (int col = j - 1; col <= j + 1; col++) {
-                if (row >= 0 && row < mx.size() && col >= 0 && col < mx.get(i).size() && (row != i || col != j)) {
-                    if (!mx.get(row).get(col).equals(".") && !mx.get(row).get(col).matches("\\d+")) {
+                if (row >= 0 && row < mx.length && col >= 0 && col < mx[i].length && (row != i || col != j)) {
+                    if (!mx[row][col].equals(".") && !mx[row][col].matches("\\d+")) {
                         return true;
                     }
                 }

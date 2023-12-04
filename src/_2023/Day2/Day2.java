@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import outils.number.IsNumber;
+import outils.number.MyNumber;
 import outils.split.Split;
 
 /**
@@ -133,7 +133,7 @@ public class Day2 {
     private static int getNumberGame(String input) {
         String nbString = input.replace("Game", "").trim();
 
-        if (IsNumber.isNumber(nbString)) {
+        if (MyNumber.isNumber(nbString)) {
             return Integer.parseInt(nbString);
         } else {
             throw new IllegalArgumentException("Impossible de convertire le nbstring");

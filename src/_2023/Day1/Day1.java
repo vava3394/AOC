@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import outils.number.IsNumber;
+import outils.number.MyNumber;
 
 /**
  * author vportal
@@ -51,7 +51,7 @@ public class Day1 {
         int p2 = 0;
         for (int i = 0; i < input.length(); i++) {
             String c = "" + input.charAt(i);
-            if (IsNumber.isNumber(c)) {
+            if (MyNumber.isNumber(c)) {
                 p1 = Integer.parseInt(c);
                 break;
             }
@@ -59,7 +59,7 @@ public class Day1 {
         }
         for (int i = input.length() - 1; i >= 0; i--) {
             String c = "" + input.charAt(i);
-            if (IsNumber.isNumber(c)) {
+            if (MyNumber.isNumber(c)) {
                 p2 = Integer.parseInt(c);
                 break;
             }
@@ -82,7 +82,7 @@ public class Day1 {
         int p2 = 0;
         for (int i = 0; i < input.length(); i++) {
             String c = "" + input.charAt(i);
-            if (IsNumber.isNumber(c)) {
+            if (MyNumber.isNumber(c)) {
                 p1 = Integer.parseInt(c);
                 break;
             } else {
@@ -100,7 +100,7 @@ public class Day1 {
         }
         for (int i = input.length() - 1; i >= 0; i--) {
             String c = "" + input.charAt(i);
-            if (IsNumber.isNumber(c)) {
+            if (MyNumber.isNumber(c)) {
                 p2 = Integer.parseInt(c);
                 break;
             } else {
