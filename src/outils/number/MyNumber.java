@@ -9,6 +9,12 @@ import java.util.regex.Pattern;
  * author vportal
  */
 public class MyNumber {
+    /**
+     * Indique si la chaine est un entier ou pas
+     * 
+     * @param val String
+     * @return boolean
+     */
     public static boolean isNumber(String val) {
         try {
             Integer.parseInt(val);
@@ -18,6 +24,12 @@ public class MyNumber {
         }
     }
 
+    /**
+     * Extract tous les entiers de la chaine de carractère
+     * 
+     * @param input - String
+     * @return List Integer
+     */
     public static List<Integer> extractIntegersToList(String input) {
         List<Integer> integerList = new ArrayList<>();
 
@@ -32,6 +44,12 @@ public class MyNumber {
         return integerList;
     }
 
+    /**
+     * Extract le premier entier de la chaine de carractère
+     * 
+     * @param input - String
+     * @return Integer
+     */
     public static Integer extractIntegers(String input) {
 
         Pattern pattern = Pattern.compile("\\d+");

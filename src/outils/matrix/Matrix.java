@@ -9,6 +9,12 @@ import java.util.List;
  */
 public class Matrix {
 
+    /**
+     * Via une list de string creer une matrix de chaque charracter des string
+     * 
+     * @param input - List String
+     * @return List List String
+     */
     public static List<List<String>> createListMatrix(List<String> input) {
         List<List<String>> mx = new ArrayList<>();
         for (String ln : input) {
@@ -17,6 +23,12 @@ public class Matrix {
         return mx;
     }
 
+    /**
+     * Via une list de string creer une matrix de chaque charracter des string
+     * 
+     * @param input - List<String>
+     * @return String[][]
+     */
     public static String[][] createMatrix(List<String> input) {
         String[][] mx = new String[input.size()][];
         for (int i = 0; i < mx.length; i++) {
@@ -25,6 +37,11 @@ public class Matrix {
         return mx;
     }
 
+    /**
+     * 
+     * @param input - List List String
+     * @return String[][]
+     */
     public static String[][] converToMatrix(List<List<String>> input) {
         String[][] mx = new String[input.size()][];
         for (int i = 0; i < input.size(); i++) {
@@ -33,6 +50,11 @@ public class Matrix {
         return mx;
     }
 
+    /**
+     * 
+     * @param input - String[][]
+     * @return List List String
+     */
     public static List<List<String>> convertToListMatrix(String[][] input) {
         List<List<String>> mx = new ArrayList<>();
         for (String[] listInput : input) {
@@ -45,10 +67,20 @@ public class Matrix {
         return mx;
     }
 
+    /**
+     * Affichage de la matrix
+     * 
+     * @param input - List List String
+     */
     public static void printMatrix(List<List<String>> input) {
         printMatrix(converToMatrix(input));
     }
 
+    /**
+     * Affichage de la matrix
+     * 
+     * @param input - String[][]
+     */
     public static void printMatrix(String[][] mx) {
         for (int i = 0; i < mx.length; i++) {
             for (int j = 0; j < mx[i].length; j++) {

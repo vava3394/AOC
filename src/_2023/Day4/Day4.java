@@ -2,6 +2,7 @@ package _2023.Day4;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -40,80 +41,49 @@ public class Day4 {
 
     private static int part1(ArrayList<String> lines) {
         int res = 0;
-        for (String line : lines) {
-            DataGame dataGame = new DataGame(line);
-            res += getPointsOfWin(dataGame.tirageWin, dataGame.tirage);
+        List<Integer> points = getAllPointsOfWin(lines);
+        for (Integer point : points) {
+            if (point > 0) {
+                if (point == 1)
+                    res++;
+                else
+                    res += (int) Math.pow(2, point - 1);
+            }
         }
-
         return res;
     }
 
     private static int part2(List<String> lines) {
-        HashMap<Integer, Integer> cartes = new HashMap<>();
+        Integer[] cartes = new Integer[lines.size()];
+        Arrays.fill(cartes, 1);
+        List<Integer> points = getAllPointsOfWin(lines);
 
-        for (String line : lines) {
-
-            DataGame dataGame = new DataGame(line);
-
-            if (!cartes.containsKey(dataGame.game)) {
-                cartes.put(dataGame.game, 1);
-            } else {
-                cartes.put(dataGame.game, cartes.get(dataGame.game) + 1);
-            }
-
-            int numberWin = getNumberWin(dataGame.tirageWin, dataGame.tirage);
-            for (int nbCopies = 0; nbCopies < cartes.get(dataGame.game); nbCopies++) {
-                for (int indexCopie = 1; indexCopie <= numberWin; indexCopie++) {
-                    if (dataGame.game + indexCopie < lines.size()) {
-                        if (!cartes.containsKey(dataGame.game + indexCopie))
-                            cartes.put(dataGame.game + indexCopie, 1);
-                        else
-                            cartes.put(dataGame.game + indexCopie, cartes.get(dataGame.game + indexCopie) + 1);
+        for (int i = 0; i < points.size(); i++) {
+            int point = points.get(i);
+            for (int nbCopies = 0; nbCopies < cartes[i]; nbCopies++) {
+                for (int indexCopie = 1; indexCopie <= point; indexCopie++) {
+                    if (i + indexCopie < lines.size()) {
+                        cartes[i + indexCopie]++;
                     }
                 }
             }
-
         }
-        return cartes.values().stream().reduce(0, (a, b) -> a + b);
+        return Arrays.stream(cartes).reduce(0, (a, b) -> a + b);
     }
 
     private static int getPointsOfWin(List<Integer> tirageWin, List<Integer> tirage) {
-        int nbWin = getNumberWin(tirageWin, tirage);
-        if (nbWin > 0) {
-            int points = 1;
-            for (int i = 0; i < nbWin - 1; i++) {
-                points *= 2;
-            }
-            return points;
-        }
-
-        return 0;
+        return tirageWin.stream().filter(t -> tirage.contains(t)).toList().size();
     }
 
-    private static int getNumberWin(List<Integer> tirageWin, List<Integer> tirage) {
-        int points = 0;
-        for (Integer element : tirage) {
-            if (tirageWin.contains(element)) {
-                if (points == 0) {
-                    points = 1;
-                } else {
-                    points++;
-                }
-            }
-        }
-        return points;
-    }
-
-    private static class DataGame {
-        String tiragesString = "";
-        int game;
-        List<Integer> tirageWin = new ArrayList<>();
-        List<Integer> tirage = new ArrayList<>();
-
-        public DataGame(String line) {
+    private static List<Integer> getAllPointsOfWin(List<String> input) {
+        List<Integer> res = new ArrayList<>();
+        for (String line : input) {
             int colonIndex = line.indexOf(":");
+            String tiragesString = "";
+            List<Integer> tirageWin = new ArrayList<>();
+            List<Integer> tirage = new ArrayList<>();
+
             if (colonIndex != -1) {
-                game = MyNumber.getNumberGame(line.substring(0, colonIndex)) - 1;
                 tiragesString = line.substring(colonIndex);
             } else {
                 throw new IllegalArgumentException("Le ':' n'est pas présent dans la chaîne.");
@@ -125,7 +95,10 @@ public class Day4 {
             } else {
                 throw new IllegalArgumentException("Le '|' n'est pas présent dans la chaîne.");
             }
-        }
 
+            res.add(getPointsOfWin(tirageWin, tirage));
+        }
+        return res;
     }
+
 }
