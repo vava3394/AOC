@@ -3,6 +3,10 @@ package outils.list;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * author vportal
+ * 
+ */
 public class MyList {
     public static <T> List<List<T>> splitList(List<T> list, int groupSize) {
         List<List<T>> res = new ArrayList<>();

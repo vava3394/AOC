@@ -12,6 +12,10 @@ import java.util.regex.Pattern;
 import outils.list.MyList;
 import outils.number.MyNumber;
 
+/**
+ * author vportal
+ * 
+ */
 public class Day5 {
     public static enum NAMETRANSFERT {
         seedtosoil,
