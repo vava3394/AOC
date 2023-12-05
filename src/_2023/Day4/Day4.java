@@ -3,7 +3,6 @@ package _2023.Day4;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import outils.number.MyNumber;;

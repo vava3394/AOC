@@ -45,6 +45,26 @@ public class MyNumber {
     }
 
     /**
+     * Extract tous les entiers de la chaine de carractère
+     * 
+     * @param input - String
+     * @return List Integer
+     */
+    public static List<Long> extractLongToList(String input) {
+        List<Long> integerList = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            Long number = Long.parseLong(matcher.group());
+            integerList.add(number);
+        }
+
+        return integerList;
+    }
+
+    /**
      * Extract le premier entier de la chaine de carractère
      * 
      * @param input - String

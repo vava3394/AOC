@@ -1,8 +1,11 @@
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Scanner;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+
+import outils.number.MyNumber;
 
 /**
  * author vportal
@@ -10,24 +13,12 @@ import javax.tools.ToolProvider;
  */
 public class App {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Select year : ");
-        int year = scanner.nextInt();
-
-        System.out.print("Select Day : ");
-        int dayNumber = scanner.nextInt();
-
-        String className = "Day" + dayNumber;
-
-        scanner.close();
 
         try {
-            String yearDirectory = "_" + year + "/";
-            String sourceFilePath = yearDirectory + className + "/" + className + ".java";
-            String sourceFileCompilePath = (yearDirectory + className + "/" + className).replace("/", ".");
+            String path = getPath();
+            String sourceFileCompilePath = path.substring(0, path.length() - 5).replace("/", ".");
 
-            compileJavaFile(sourceFilePath);
+            compileJavaFile(path);
 
             ClassLoader classLoader = App.class.getClassLoader();
             Class<?> dayClass = classLoader.loadClass(sourceFileCompilePath);
@@ -54,5 +45,47 @@ public class App {
         } else {
             System.out.println("Échec de la compilation");
         }
+    }
+
+    private static String getPath() {
+        Scanner scanner = new Scanner(System.in);
+        String path = "";
+        while (!CheckFileExistence(path)) {
+            String text;
+
+            System.out.print("Select year : ");
+            text = scanner.nextLine();
+            while (null == text || !MyNumber.isNumber(text)) {
+                System.out.print("Select year valid: ");
+                text = scanner.nextLine();
+            }
+            int year = Integer.parseInt(text);
+
+            System.out.print("Select Day : ");
+            text = scanner.nextLine();
+
+            while (null == text || !MyNumber.isNumber(text)) {
+                System.out.print("Select day valid: ");
+                text = scanner.nextLine();
+            }
+            int dayNumber = Integer.parseInt(text);
+
+            String className = "Day" + dayNumber;
+
+            String yearDirectory = "_" + year + "/";
+
+            path = yearDirectory + className + "/" + className + ".java";
+        }
+        scanner.close();
+        return path;
+
+    }
+
+    private static boolean CheckFileExistence(String cheminFichier) {
+        File fichier = new File(cheminFichier);
+        if (fichier.exists()) {
+            return true;
+        }
+        return false;
     }
 }
