@@ -28,7 +28,6 @@ public class Day5 {
         try {
             in = new Scanner(new File("_2023\\Day5\\input.txt"));
 
-            ArrayList<String> lines = new ArrayList<String>();
             Long solution1 = 0L;
             Long solution2 = 0L;
             String line = "";
@@ -53,9 +52,15 @@ public class Day5 {
                             MyList.splitList(MyNumber.extractLongToList(matcher.group(2)), 3));
                 }
             }
-            // System.out.println(transfert);
+
             solution1 = part1(seed, transfert);
+            long startTime = System.currentTimeMillis();
             solution2 = part2(seedPair, transfert);
+            long endTime = System.currentTimeMillis();
+            long elapsedTimeMilliseconds = endTime - startTime;
+            long elapsedTimeMinutes = elapsedTimeMilliseconds / (60 * 1000);
+
+            System.out.println("Temps d'exécution de la fonction : " + elapsedTimeMinutes + " minutes");
 
             System.out.println("solution 1 : " + solution1);
             System.out.println("solution 2 : " + solution2);
@@ -65,15 +70,11 @@ public class Day5 {
     }
 
     private static Long part1(List<Long> input, HashMap<String, List<List<Long>>> transfert) {
-
-        for (NAMETRANSFERT name : NAMETRANSFERT.values()) {
-            List<Long> out = new ArrayList<>();
-            for (Long in : input) {
-                out.add(getCartographie(in, transfert.get(name.toString())));
-            }
-            input = out;
+        Long min = Long.MAX_VALUE;
+        for (int i = 0; i < input.size(); i++) {
+            min = Math.min(min, excuteCartographie(input.get(i), transfert));
         }
-        return Collections.min(input);
+        return min;
     }
 
     /*
@@ -82,8 +83,10 @@ public class Day5 {
     private static Long part2(List<List<Long>> input, HashMap<String, List<List<Long>>> transfert) {
         List<Long> mins = new ArrayList<>();
         for (List<Long> list : input) {
-            Long out = excuteCartographie(list.get(0), transfert);
-            for (Long i = list.get(0) + 1; i < list.get(0) + list.get(1); i++) {
+            Long out = Long.MAX_VALUE;
+            Long start = list.get(0);
+            Long end = list.get(0) + list.get(1);
+            for (Long i = start; i < end; i++) {
                 out = Math.min(out, excuteCartographie(i, transfert));
             }
             mins.add(out);
@@ -94,17 +97,16 @@ public class Day5 {
 
     private static Long excuteCartographie(Long in, HashMap<String, List<List<Long>>> transfert) {
         for (NAMETRANSFERT name : NAMETRANSFERT.values()) {
-            Long out = getCartographie(in, transfert.get(name.toString()));
-            in = out;
+            in = getCartographie(in, transfert.get(name.toString()));
         }
         return in;
     }
 
     private static Long getCartographie(Long in, List<List<Long>> transfert) {
-        Long out = 0L;
+        Long out = in;
         for (List<Long> list : transfert) {
             if (in >= list.get(1) && in <= list.get(1) + list.get(2)) {
-                out = list.get(0) + in - list.get(1);
+                return list.get(0) + in - list.get(1);
             }
         }
         return out;
