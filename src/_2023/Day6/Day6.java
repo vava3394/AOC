@@ -46,13 +46,12 @@ public class Day6 {
         for (int i = 0; i < listTime.size(); i++) {
             int time = listTime.get(i);
             int distance = listDistance.get(i);
-            int nbWin = 0;
             for (int j = 0; j < time; j++) {
                 if (j * (time - j) > distance) {
-                    nbWin++;
+                    res.add((int) ((time - j) - (j - 1)));
+                    break;
                 }
             }
-            res.add(nbWin);
         }
 
         return res.stream().reduce(1, (a, b) -> a * b);
@@ -62,18 +61,17 @@ public class Day6 {
         List<Long> listTime = MyNumber.extractLongToList(MyString.clearSpace(input.get(0)));
         List<Long> listDistance = MyNumber
                 .extractLongToList(MyString.clearSpace(input.get(1)));
-        int nbWin = 0;
         for (int i = 0; i < listTime.size(); i++) {
             Long time = listTime.get(i);
             Long distance = listDistance.get(i);
 
             for (int j = 0; j < time; j++) {
                 if (j * (time - j) > distance) {
-                    nbWin++;
+                    return (int) ((time - j) - (j - 1));
                 }
             }
         }
 
-        return nbWin;
+        return 0;
     }
 }
