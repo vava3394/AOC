@@ -64,6 +64,18 @@ public class MyNumber {
         return integerList;
     }
 
+    public static List<String> extractStringNumber(String input) {
+        List<String> stringList = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            stringList.add(matcher.group());
+        }
+
+        return stringList;
+    }
+
     /**
      * Extract le premier entier de la chaine de carractère
      * 
