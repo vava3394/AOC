@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import outils.graph.MyGraph;
 import outils.list.MyList;
 import outils.number.MyNumber;
 
@@ -78,7 +79,7 @@ public class Day8 {
         for (String value : depart) {
             cycles.add(findCycle(value, input, instruction));
         }
-        return calculatePPCM(cycles.stream().mapToInt(Integer::intValue).toArray());
+        return MyGraph.calculatePPCM(cycles.stream().mapToInt(Integer::intValue).toArray());
     }
 
     private static int findCycle(String depart, List<String> input, List<Character> instruction) {
@@ -100,31 +101,6 @@ public class Day8 {
         }
 
         return res;
-    }
-
-    // Fonction pour calculer le PPCM de plusieurs nombres
-    private static long calculatePPCM(int[] numbers) {
-        long result = numbers[0];
-        for (int i = 1; i < numbers.length; i++) {
-            result = calculatePPCM(result, numbers[i]);
-        }
-        return result;
-    }
-
-    // Fonction pour calculer le PPCM de deux nombres
-    private static long calculatePPCM(long a, long b) {
-        return Math.abs(a * b) / calculatePGCD(a, b);
-    }
-
-    // Fonction pour calculer le PGCD de deux nombres en utilisant l'algorithme
-    // d'Euclide
-    private static long calculatePGCD(long a, long b) {
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
     }
 
     private static HashMap<String, String[]> getAllLieux(List<String> input) {
