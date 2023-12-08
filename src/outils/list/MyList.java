@@ -16,4 +16,20 @@ public class MyList {
         }
         return res;
     }
+
+    public static <T> List<T> arrayToList(T[] cs) {
+        List<T> res = new ArrayList<>();
+        for (T t : cs) {
+            res.add(t);
+        }
+        return res;
+    }
+
+    public static List<Character> getStringToListChar(String input) {
+        List<Character> res = new ArrayList<>();
+        for (char t : input.toCharArray()) {
+            res.add(t);
+        }
+        return res;
+    }
 }

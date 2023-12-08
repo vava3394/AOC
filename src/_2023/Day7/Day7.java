@@ -3,7 +3,6 @@ package _2023.Day7;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,10 @@ import outils.number.MyNumber;
 import outils.pair.Pair;
 import outils.string.MyString;
 
+/**
+ * author vportal
+ * 
+ */
 public class Day7 {
 
     private static enum ENUMSYMBOL {
@@ -188,7 +191,6 @@ public class Day7 {
                     ;
                     pos++;
                     posDejaVu.add(j);
-
                 }
             }
             if (!posDejaVu.contains(i))
