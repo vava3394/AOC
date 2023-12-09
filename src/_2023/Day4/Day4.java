@@ -71,7 +71,7 @@ public class Day4 {
     }
 
     private static int getPointsOfWin(List<Integer> tirageWin, List<Integer> tirage) {
-        return tirageWin.stream().filter(t -> tirage.contains(t)).toList().size();
+        return tirageWin.stream().filter(t -> tirage.contains(t)).toArray().length;
     }
 
     private static List<Integer> getAllPointsOfWin(List<String> input) {

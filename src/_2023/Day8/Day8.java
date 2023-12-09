@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 import outils.graph.MyGraph;
 import outils.list.MyList;
-import outils.number.MyNumber;
 
 /**
  * author vportal

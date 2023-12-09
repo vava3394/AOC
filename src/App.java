@@ -5,15 +5,16 @@ import java.util.Scanner;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
-import outils.number.MyNumber;
-
 /**
  * author vportal
  * 
  */
 public class App {
     public static void main(String[] args) {
+        executeDay(args);
+    }
 
+    private static void executeDay(String[] args) {
         try {
             String path = getPath();
             String sourceFileCompilePath = path.substring(0, path.length() - 5).replace("/", ".");
@@ -55,7 +56,7 @@ public class App {
 
             System.out.print("Select year : ");
             text = scanner.nextLine();
-            while (null == text || !MyNumber.isNumber(text)) {
+            while (null == text || !isNumber(text)) {
                 System.out.print("Select year valid: ");
                 text = scanner.nextLine();
             }
@@ -64,7 +65,7 @@ public class App {
             System.out.print("Select Day : ");
             text = scanner.nextLine();
 
-            while (null == text || !MyNumber.isNumber(text)) {
+            while (null == text || !isNumber(text)) {
                 System.out.print("Select day valid: ");
                 text = scanner.nextLine();
             }
@@ -87,5 +88,14 @@ public class App {
             return true;
         }
         return false;
+    }
+
+    private static boolean isNumber(String val) {
+        try {
+            Integer.parseInt(val);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

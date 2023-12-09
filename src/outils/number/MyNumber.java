@@ -33,7 +33,7 @@ public class MyNumber {
     public static List<Integer> extractIntegersToList(String input) {
         List<Integer> integerList = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("\\d+");
+        Pattern pattern = Pattern.compile("-?\\d+");
         Matcher matcher = pattern.matcher(input);
 
         while (matcher.find()) {
