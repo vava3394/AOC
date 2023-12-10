@@ -79,9 +79,10 @@ public class Matrix {
     /**
      * Affichage de la matrix
      * 
-     * @param input - String[][]
+     * @param <T>
+     * 
      */
-    public static void printMatrix(String[][] mx) {
+    public static <T> void printMatrix(T[][] mx) {
         for (int i = 0; i < mx.length; i++) {
             for (int j = 0; j < mx[i].length; j++) {
                 System.out.print(mx[i][j]);

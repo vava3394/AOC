@@ -2,7 +2,6 @@ package _2023.Day9;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,8 +29,7 @@ public class Day9 {
             }
             solution1 = part1(lines);
             solution2 = part2(lines);
-            // 1713265569 trop bas
-            // 1891326779 tros haut
+
             System.out.println("solution 1 : " + solution1);
             System.out.println("solution 2 : " + solution2);
         } catch (Exception e) {
