@@ -1,4 +1,4 @@
-package _2023.Day6;
+package _2023.Day06;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,12 +12,12 @@ import outils.string.MyString;
  * author vportal
  * 
  */
-public class Day6 {
+public class Day06 {
 
     public static void main(String[] args) {
         Scanner in;
         try {
-            in = new Scanner(new File("_2023\\Day6\\input.txt"));
+            in = new Scanner(new File("_2023\\Day06\\input.txt"));
 
             ArrayList<String> lines = new ArrayList<String>();
             int solution1 = 0;

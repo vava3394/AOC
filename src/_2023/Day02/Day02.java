@@ -1,4 +1,4 @@
-package _2023.Day2;
+package _2023.Day02;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import outils.split.Split;
  * author vportal
  * 
  */
-public class Day2 {
+public class Day02 {
 
     private static enum ColorCube {
         red, blue, green
@@ -24,7 +24,7 @@ public class Day2 {
     public static void main(String[] args) {
         Scanner in;
         try {
-            in = new Scanner(new File("_2023\\Day2\\input.txt"));
+            in = new Scanner(new File("_2023\\Day02\\input.txt"));
 
             ArrayList<String> games = new ArrayList<String>();
             int solution1 = 0;

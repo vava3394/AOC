@@ -1,4 +1,4 @@
-package _2023.Day5;
+package _2023.Day05;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import outils.number.MyNumber;
  * author vportal
  * 
  */
-public class Day5 {
+public class Day05 {
     public static enum NAMETRANSFERT {
         seedtosoil,
         soiltofertilizer,
@@ -30,7 +30,7 @@ public class Day5 {
     public static void main(String[] args) {
         Scanner in;
         try {
-            in = new Scanner(new File("_2023\\Day5\\input.txt"));
+            in = new Scanner(new File("_2023\\Day05\\input.txt"));
 
             Long solution1 = 0L;
             Long solution2 = 0L;

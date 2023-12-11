@@ -1,4 +1,4 @@
-package _2023.Day1;
+package _2023.Day01;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import outils.number.MyNumber;
 /**
  * author vportal
  */
-public class Day1 {
+public class Day01 {
 
     private static enum NUMBER {
         one, two, three, four, five, six, seven, eight, nine
@@ -18,7 +18,7 @@ public class Day1 {
     public static void main(String[] args) {
         Scanner in;
         try {
-            in = new Scanner(new File("_2023\\Day1\\input.txt"));
+            in = new Scanner(new File("_2023\\Day01\\input.txt"));
 
             ArrayList<String> lines = new ArrayList<String>();
             int solution1 = 0;

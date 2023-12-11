@@ -69,9 +69,7 @@ public class App {
                 System.out.print("Select day valid: ");
                 text = scanner.nextLine();
             }
-            int dayNumber = Integer.parseInt(text);
-
-            String className = "Day" + dayNumber;
+            String className = "Day" + text;
 
             String yearDirectory = "_" + year + "/";
 
