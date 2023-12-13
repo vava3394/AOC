@@ -34,10 +34,14 @@ public class Day12 {
                 lines.add(line);
             }
             List<Pair<String, List<Integer>>> input = getValues(lines);
+            double startTime = System.currentTimeMillis();
             solution1 = part1(input);
+            double endTime = System.currentTimeMillis();
+            System.out.println("solution 1 : " + solution1 + " Temps : " + ((endTime - startTime) / 1000) + "s");
+            startTime = System.currentTimeMillis();
             solution2 = part2(input);
-            System.out.println("solution 1 : " + solution1);
-            System.out.println("solution 2 : " + solution2);
+            endTime = System.currentTimeMillis();
+            System.out.println("solution 2 : " + solution2 + " Temps : " + ((endTime - startTime) / 1000) + "s");
         } catch (Exception e) {
             e.printStackTrace();
         }

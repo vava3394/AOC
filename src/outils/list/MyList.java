@@ -32,4 +32,17 @@ public class MyList {
         }
         return res;
     }
+
+    public static List<String> getTranspose(List<String> lignes) {
+        List<String> res = new ArrayList<>();
+        for (int c = 0; c < lignes.get(0).length(); c++) {
+            StringBuilder colonne = new StringBuilder();
+            for (String ligne : lignes) {
+                colonne.append(ligne.charAt(c));
+            }
+            res.add(colonne.toString());
+        }
+
+        return res;
+    }
 }
