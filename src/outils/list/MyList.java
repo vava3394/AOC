@@ -45,4 +45,12 @@ public class MyList {
 
         return res;
     }
+
+    public static <T> List<T> reverseList(List<T> list) {
+        List<T> res = new ArrayList<>();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            res.add(list.get(i));
+        }
+        return res;
+    }
 }

@@ -84,17 +84,9 @@ public class Day13 {
                 above = list.subList((r + 1) - (list.size() - (r + 1)), r + 1);
                 below = list.subList(r + 1, list.size());
             }
-            if (comparerDiff(reverseList(above), below) == 1) {
-                return isTranspose ? (r + 1) : (r + 1) * 100;
+            if (comparerDiff(MyList.reverseList(above), below) == 1) {
+                res += isTranspose ? (r + 1) : (r + 1) * 100;
             }
-        }
-        return res;
-    }
-
-    private static List<String> reverseList(List<String> list) {
-        List<String> res = new ArrayList<>();
-        for (int i = list.size() - 1; i >= 0; i--) {
-            res.add(list.get(i));
         }
         return res;
     }
