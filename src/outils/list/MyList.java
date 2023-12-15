@@ -53,4 +53,10 @@ public class MyList {
         }
         return res;
     }
+
+    public static <T> List<T> of(T input) {
+        List<T> res = new ArrayList<>();
+        res.add(input);
+        return res;
+    }
 }
