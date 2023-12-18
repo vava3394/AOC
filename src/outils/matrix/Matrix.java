@@ -37,6 +37,14 @@ public class Matrix {
         return mx;
     }
 
+    public static int[][] createIntMatrix(List<String> input) {
+        int[][] mx = new int[input.size()][];
+        for (int i = 0; i < mx.length; i++) {
+            mx[i] = getLineIntMatrix(input.get(i));
+        }
+        return mx;
+    }
+
     /**
      * 
      * @param input - List List String
@@ -94,6 +102,18 @@ public class Matrix {
         }
     }
 
+    public static void printMatrix(int[][] mx) {
+        for (int i = 0; i < mx.length; i++) {
+            for (int j = 0; j < mx[i].length; j++) {
+                System.out.print(mx[i][j]);
+                if (j < mx[i].length - 1) {
+                    System.out.print(",");
+                }
+            }
+            System.out.println();
+        }
+    }
+
     private static List<String> getLineMatrix(String line) {
         List<String> res = new ArrayList<>();
 
@@ -104,4 +124,14 @@ public class Matrix {
         }
         return res;
     }
+
+    private static int[] getLineIntMatrix(String line) {
+        int[] res = new int[line.length()];
+        for (int i = 0; i < res.length; i++) {
+            String element = line.substring(i, i + 1);
+            res[i] = (Integer.parseInt(element));
+        }
+        return res;
+    }
+
 }

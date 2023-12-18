@@ -4,13 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Set;
 
 import outils.matrix.Matrix;
-import outils.number.MyNumber;
+import outils.pair.Pair;
 
 public class Day16 {
     public static class Point {
@@ -131,24 +133,27 @@ public class Day16 {
     }
 
     static HashMap<String, Set<Point>> dejaVue = new HashMap<>();
+    static Queue<Pair<Point, Point>> pointsToVisit = new LinkedList<>();
 
     private static void rayCast(Point start, Point direction, String[][] mx, String[][] mxCache) {
-        mxCache[start.x][start.y] = "#";
-        String key = start.toString();
-
-        dejaVue.computeIfAbsent(key, k -> new HashSet<>());
-
-        Set<Point> directionsSet = dejaVue.get(key);
-
-        if (!directionsSet.contains(direction)) {
-            directionsSet.add(direction);
-            direction(start, direction, mx, mxCache);
+        pointsToVisit.offer(new Pair<Point, Point>(start, direction));
+        while (!pointsToVisit.isEmpty()) {
+            Pair<Point, Point> current = pointsToVisit.poll();
+            mxCache[current.getFirst().x][current.getFirst().y] = "#";
+            String key = current.getFirst().toString();
+            dejaVue.computeIfAbsent(key, k -> new HashSet<>());
+            Set<Point> directionsSet = dejaVue.get(key);
+            if (!directionsSet.contains(current.getSecond())) {
+                directionsSet.add(current.getSecond());
+                direction(current.getFirst(), current.getSecond(), mx, mxCache);
+            }
         }
     }
 
     private static void direction(Point start, Point direction, String[][] mx, String[][] mxCache) {
         if (verifMx(start, direction, mxCache) && mx[start.x][start.y].equals(".")) {
-            rayCast(new Point(start.x + direction.x, start.y + direction.y), direction, mx, mxCache);
+            pointsToVisit
+                    .offer(new Pair<Point, Point>(new Point(start.x + direction.x, start.y + direction.y), direction));
         } else {
             switch (mx[start.x][start.y]) {
                 case "/":
@@ -169,47 +174,49 @@ public class Day16 {
 
     private static void handleSlashDirection(Point start, Point direction, String[][] mx, String[][] mxCache) {
         if (direction.equals(droite) && verifMx(start, haut, mxCache)) {
-            rayCast(new Point(start.x + haut.x, start.y + haut.y), haut, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + haut.x, start.y + haut.y), haut));
         } else if (direction.equals(haut) && verifMx(start, droite, mxCache)) {
-            rayCast(new Point(start.x + droite.x, start.y + droite.y), droite, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + droite.x, start.y + droite.y), droite));
         } else if (direction.equals(bas) && verifMx(start, gauche, mxCache)) {
-            rayCast(new Point(start.x + gauche.x, start.y + gauche.y), gauche, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + gauche.x, start.y + gauche.y), gauche));
         } else if (direction.equals(gauche) && verifMx(start, bas, mxCache)) {
-            rayCast(new Point(start.x + bas.x, start.y + bas.y), bas, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + bas.x, start.y + bas.y), bas));
         }
     }
 
     private static void handleBackslashDirection(Point start, Point direction, String[][] mx, String[][] mxCache) {
         if (direction.equals(droite) && verifMx(start, bas, mxCache)) {
-            rayCast(new Point(start.x + bas.x, start.y + bas.y), bas, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + bas.x, start.y + bas.y), bas));
         } else if (direction.equals(haut) && verifMx(start, gauche, mxCache)) {
-            rayCast(new Point(start.x + gauche.x, start.y + gauche.y), gauche, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + gauche.x, start.y + gauche.y), gauche));
         } else if (direction.equals(bas) && verifMx(start, droite, mxCache)) {
-            rayCast(new Point(start.x + droite.x, start.y + droite.y), droite, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + droite.x, start.y + droite.y), droite));
         } else if (direction.equals(gauche) && verifMx(start, haut, mxCache)) {
-            rayCast(new Point(start.x + haut.x, start.y + haut.y), haut, mx, mxCache);
+            pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + haut.x, start.y + haut.y), haut));
         }
     }
 
     private static void handleVerticalDirection(Point start, Point direction, String[][] mx, String[][] mxCache) {
         if (direction.equals(droite) || direction.equals(gauche)) {
             if (verifMx(start, haut, mxCache))
-                rayCast(new Point(start.x + haut.x, start.y + haut.y), haut, mx, mxCache);
+                pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + haut.x, start.y + haut.y), haut));
             if (verifMx(start, bas, mxCache))
-                rayCast(new Point(start.x + bas.x, start.y + bas.y), bas, mx, mxCache);
+                pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + bas.x, start.y + bas.y), bas));
         } else if (verifMx(start, direction, mxCache)) {
-            rayCast(new Point(start.x + direction.x, start.y + direction.y), direction, mx, mxCache);
+            pointsToVisit
+                    .offer(new Pair<Point, Point>(new Point(start.x + direction.x, start.y + direction.y), direction));
         }
     }
 
     private static void handleHorizontalDirection(Point start, Point direction, String[][] mx, String[][] mxCache) {
         if (direction.equals(haut) || direction.equals(bas)) {
             if (verifMx(start, droite, mxCache))
-                rayCast(new Point(start.x + droite.x, start.y + droite.y), droite, mx, mxCache);
+                pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + droite.x, start.y + droite.y), droite));
             if (verifMx(start, gauche, mxCache))
-                rayCast(new Point(start.x + gauche.x, start.y + gauche.y), gauche, mx, mxCache);
+                pointsToVisit.offer(new Pair<Point, Point>(new Point(start.x + gauche.x, start.y + gauche.y), gauche));
         } else if (verifMx(start, direction, mxCache)) {
-            rayCast(new Point(start.x + direction.x, start.y + direction.y), direction, mx, mxCache);
+            pointsToVisit
+                    .offer(new Pair<Point, Point>(new Point(start.x + direction.x, start.y + direction.y), direction));
         }
     }
 
