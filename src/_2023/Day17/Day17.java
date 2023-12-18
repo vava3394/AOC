@@ -2,78 +2,48 @@ package _2023.Day17;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Set;
 
 import outils.matrix.Matrix;
 
-class Node {
-    int row, col, totalHeat, currentHeat, direction; // 0: right, 1: down, 2: left, 3: up
-    Node parent;
-
-    public Node(int row, int col, int totalHeat, int currentHeat, int direction, Node parent) {
-        this.row = row;
-        this.col = col;
-        this.totalHeat = totalHeat;
-        this.currentHeat = currentHeat;
-        this.direction = direction;
-        this.parent = parent;
-    }
-}
-
 public class Day17 {
-    public static int findMinHeat(int[][] heatMap) {
-        int rows = heatMap.length;
-        int cols = heatMap[0].length;
-        Node start = new Node(0, 0, 0, 0, 0, null);
-        Node goal = new Node(rows - 1, cols - 1, 0, 0, 0, null);
 
-        PriorityQueue<Node> heap = new PriorityQueue<>(Comparator.comparingInt(node -> node.totalHeat));
-        heap.offer(start);
+    static class State implements Comparable<State> {
+        int hl, row, col, dirRow, dirCol, n;
 
-        HashSet<String> visited = new HashSet<>();
-
-        while (!heap.isEmpty()) {
-            Node current = heap.poll();
-
-            if (current.row == goal.row && current.col == goal.col) {
-                printPath(current, heatMap);
-                return current.totalHeat;
-            }
-
-            String positionKey = current.row + "," + current.col + "," + current.direction;
-            if (visited.contains(positionKey)) {
-                continue;
-            }
-
-            visited.add(positionKey);
-
-            int[][] moves = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } }; // right, down, left, up
-            for (int turn = -1; turn <= 1; turn += 2) {
-                int nextDirection = (current.direction + turn + 4) % 4;
-                int nextRow = current.row + moves[nextDirection][0];
-                int nextCol = current.col + moves[nextDirection][1];
-
-                if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols) {
-                    int nextHeat = heatMap[nextRow][nextCol];
-                    int nextTotalHeat = current.totalHeat + nextHeat;
-
-                    Node nextNode = new Node(nextRow, nextCol, nextTotalHeat, nextHeat, nextDirection, current);
-                    heap.offer(nextNode);
-                }
-            }
+        State(int hl, int row, int col, int dirRow, int dirCol, int n) {
+            this.hl = hl;
+            this.row = row;
+            this.col = col;
+            this.dirRow = dirRow;
+            this.dirCol = dirCol;
+            this.n = n;
         }
 
-        return -1; // No valid path
-    }
+        @Override
+        public int compareTo(State other) {
+            return Integer.compare(this.hl, other.hl);
+        }
 
-    public static void printPath(Node node, int[][] heatMap) {
-        while (node != null) {
-            System.out.println("[" + node.row + "," + node.col + "] Heat: " + heatMap[node.row][node.col]);
-            node = node.parent;
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null || getClass() != obj.getClass())
+                return false;
+            State state = (State) obj;
+            return row == state.row && col == state.col && dirRow == state.dirRow && dirCol == state.dirCol
+                    && n == state.n;
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(new int[] { row, col, dirRow, dirCol, n });
         }
     }
 
@@ -96,7 +66,7 @@ public class Day17 {
             double endTime = System.currentTimeMillis();
             System.out.println("solution 1 : " + solution1 + " Temps : " + ((endTime - startTime) / 1000) + "s");
             startTime = System.currentTimeMillis();
-            // solution2 = part2(lines);
+            solution2 = part2(lines);
             endTime = System.currentTimeMillis();
             System.out.println("solution 2 : " + solution2 + " Temps : " + ((endTime - startTime) / 1000) + "s");
         } catch (Exception e) {
@@ -106,8 +76,119 @@ public class Day17 {
 
     private static Long part1(List<String> lines) {
         int[][] heatMap = Matrix.createIntMatrix(lines);
-        Matrix.printMatrix(heatMap);
-        int minHeat = findMinHeat(heatMap);
-        return (long) minHeat;
+        return (long) findMinHeat(heatMap);
     }
+
+    private static Long part2(List<String> lines) {
+        int[][] heatMap = Matrix.createIntMatrix(lines);
+        return (long) findMinHeatP2(heatMap);
+    }
+
+    public static int findMinHeat(int[][] heatMap) {
+        int rows = heatMap.length; // Replace with the actual number of rows in your grid
+        int cols = heatMap[0].length;
+        Set<State> seen = new HashSet<>();
+        PriorityQueue<State> pq = new PriorityQueue<>();
+
+        pq.add(new State(0, 0, 0, 0, 0, 0));
+
+        while (!pq.isEmpty()) {
+            State state = pq.poll();
+
+            int hl = state.hl;
+            int r = state.row;
+            int c = state.col;
+            int dr = state.dirRow;
+            int dc = state.dirCol;
+            int n = state.n;
+
+            if (r == rows - 1 && c == cols - 1) {
+                return hl;
+            }
+
+            if (seen.contains(state)) {
+                continue;
+            }
+
+            seen.add(state);
+
+            if (n < 3 && (dr != 0 || dc != 0)) {
+                int nr = r + dr;
+                int nc = c + dc;
+                if (0 <= nr && nr < rows && 0 <= nc && nc < cols) {
+                    pq.add(new State(hl + heatMap[nr][nc], nr, nc, dr, dc, n + 1));
+                }
+            }
+
+            int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+            for (int[] direction : directions) {
+                int ndr = direction[0];
+                int ndc = direction[1];
+                if ((ndr != dr || ndc != dc) && (ndr != -dr || ndc != -dc)) {
+                    int nr = r + ndr;
+                    int nc = c + ndc;
+                    if (0 <= nr && nr < rows && 0 <= nc && nc < cols) {
+                        pq.add(new State(hl + heatMap[nr][nc], nr, nc, ndr, ndc, 1));
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static int findMinHeatP2(int[][] heatMap) {
+        int rows = heatMap.length; // Replace with the actual number of rows in your grid
+        int cols = heatMap[0].length;
+        Set<State> seen = new HashSet<>();
+        PriorityQueue<State> pq = new PriorityQueue<>();
+
+        pq.add(new State(0, 0, 0, 0, 0, 0));
+
+        while (!pq.isEmpty()) {
+            State state = pq.poll();
+
+            int hl = state.hl;
+            int r = state.row;
+            int c = state.col;
+            int dr = state.dirRow;
+            int dc = state.dirCol;
+            int n = state.n;
+
+            if (r == rows - 1 && c == cols - 1) {
+                return hl;
+            }
+
+            if (seen.contains(state)) {
+                continue;
+            }
+
+            seen.add(state);
+
+            if (n < 10 && (dr != 0 || dc != 0)) {
+                int nr = r + dr;
+                int nc = c + dc;
+                if (0 <= nr && nr < rows && 0 <= nc && nc < cols) {
+                    pq.add(new State(hl + heatMap[nr][nc], nr, nc, dr, dc, n + 1));
+                }
+            }
+
+            if (n >= 4 || (dr == 0 && dc == 0)) {
+                int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+                for (int[] direction : directions) {
+                    int ndr = direction[0];
+                    int ndc = direction[1];
+                    if ((ndr != dr || ndc != dc) && (ndr != -dr || ndc != -dc)) {
+                        int nr = r + ndr;
+                        int nc = c + ndc;
+                        if (0 <= nr && nr < rows && 0 <= nc && nc < cols) {
+                            pq.add(new State(hl + heatMap[nr][nc], nr, nc, ndr, ndc, 1));
+                        }
+                    }
+                }
+            }
+
+        }
+        return -1;
+    }
+
 }
