@@ -11,6 +11,10 @@ import java.util.Set;
 
 import outils.matrix.Matrix;
 
+/**
+ * author vportal
+ * 
+ */
 public class Day17 {
 
     static class State implements Comparable<State> {

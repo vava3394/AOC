@@ -11,21 +11,13 @@ import java.util.Scanner;
 
 import javax.swing.text.Position;
 
+import outils.point.Point;
+
 /**
  * author vportal
  * 
  */
 public class Day10 {
-    public static class Point {
-        public int x;
-        public int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     public enum Pipe {
         NS, EW, NE, NW, SE, SW, Start, Empty
     }

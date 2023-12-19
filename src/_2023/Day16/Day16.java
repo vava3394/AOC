@@ -13,38 +13,13 @@ import java.util.Set;
 
 import outils.matrix.Matrix;
 import outils.pair.Pair;
+import outils.point.Point;
 
+/**
+ * author vportal
+ * 
+ */
 public class Day16 {
-    public static class Point {
-        int x;
-        int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null || getClass() != obj.getClass())
-                return false;
-            Point point = (Point) obj;
-            return x == point.x && y == point.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-
-        @Override
-        public String toString() {
-            return "(" + x + "," + y + ")";
-        }
-    }
-
     public static final Point bas = new Point(1, 0);
     public static final Point haut = new Point(-1, 0);
     public static final Point droite = new Point(0, 1);

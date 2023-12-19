@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Scanner;
 import java.util.Map.Entry;
@@ -14,7 +12,6 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import outils.list.MyList;
-import outils.number.MyNumber;
 
 /**
  * author vportal
