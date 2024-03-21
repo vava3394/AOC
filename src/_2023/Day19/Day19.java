@@ -182,30 +182,140 @@ public class Day19 {
         // 167409079868000
 
         // 291411878080719 trop haut
+        // 129128984661201
+        // 188801368643554
+
+        // 162282893419518
+        // 59672383982353
         Long res = 0l;
+        Long totalPosibiliti = 0l;
         List<List<Integer>> newList = new ArrayList<>();
         newList.add(List.of(1, value));
         newList.add(List.of(1, value));
         newList.add(List.of(1, value));
         newList.add(List.of(1, value));
         file.offer(new Pair<>("in", newList));
+        List<List<List<Integer>>> resA = new ArrayList<>();
         while (!file.isEmpty()) {
-
             Pair<String, List<List<Integer>>> pair = file.poll();
             if (pair.getFirst().equals("A")) {
                 List<List<Integer>> is = pair.getSecond();
-                Long test = 1l;
+                resA.add(is);
+                Long possibilite = 1l;
                 for (List<Integer> list : is) {
-                    test *= (list.get(1) - list.get(0)) + 1;
+                    possibilite *= (list.get(1) - list.get(0)) + 1;
                 }
-                res += test;
+                totalPosibiliti += possibilite;
             } else if (!pair.getFirst().equals("R")) {
                 valueRange(pair.getSecond(), pair.getFirst());
             }
         }
 
-        return res;
+        if (resA.size() > 1) {
+            Queue<List<List<Integer>>> file = new LinkedList<>(resA);
+
+
+            List<Integer> dejaVu = new ArrayList<>();
+            for (int i = 0; i < resA.size() - 1; i++) {
+                List<List<Integer>> A = resA.get(i);
+                if (!dejaVu.contains(i)) {
+                    for (int j = i + 1; j < resA.size(); j++) {
+                        List<List<Integer>> B = resA.get(j);
+                        List<List<Integer>> ajout = new ArrayList<>();
+                        if ((B.get(0).get(0) >= A.get(0).get(0) &&
+                                B.get(0).get(1) <= A.get(0).get(1)) &&
+                                (B.get(1).get(0) >= A.get(1).get(0) &&
+                                        B.get(1).get(1) <= A.get(1).get(1))
+                                &&
+                                (B.get(2).get(0) >= A.get(2).get(0) &&
+                                        B.get(2).get(1) <= A.get(2).get(1))
+                                &&
+                                (B.get(3).get(0) >= A.get(3).get(0) &&
+                                        B.get(3).get(1) <= A.get(3).get(1))) {
+                            dejaVu.add(j);
+                        } else if ((A.get(0).get(0) >= B.get(0).get(0) &&
+                                A.get(0).get(1) <= B.get(0).get(1)) &&
+                                (A.get(1).get(0) >= B.get(1).get(0) &&
+                                        A.get(1).get(1) <= B.get(1).get(1))
+                                &&
+                                (A.get(2).get(0) >= B.get(2).get(0) &&
+                                        A.get(2).get(1) <= B.get(2).get(1))
+                                &&
+                                (A.get(3).get(0) >= B.get(3).get(0) &&
+                                        A.get(3).get(1) <= B.get(3).get(1))) {
+                            continue;
+                        } else {
+                            for (int k = 0; k < 4; k++) {
+                                if (B.get(k).get(0) >= A.get(k).get(0) &&
+                                        B.get(k).get(1) <= A.get(k).get(1)) {
+                                    ajout.add(B.get(k));
+                                } else if (B.get(k).get(0) < A.get(k).get(0)) {
+                                    if (B.get(k).get(1) >= A.get(k).get(0)) {
+                                        if (B.get(k).get(1) <= A.get(k).get(1))
+                                            ajout.add(List.of(B.get(k).get(0), A.get(k).get(0) - 1));
+                                        else {
+                                            ajout.add(B.get(k));
+                                        }
+                                    } else {
+                                        ajout.add(B.get(k));
+                                    }
+                                } else if (B.get(k).get(0) >= A.get(k).get(1)) {
+                                    ajout.add(B.get(k));
+                                } else if (B.get(k).get(1) >= A.get(k).get(1)) {
+                                    ajout.add(List.of(A.get(k).get(1) + 1, B.get(k).get(1)));
+                                } else {
+                                    ajout.add(B.get(k));
+                                }
+                            }
+                            resA.add(ajout);
+                        }
+
+                    }
+                }
+
+            }
+            System.out.println(dejaVu);
+        }
+        return totalPosibiliti;
     }
+
+    // List<Integer> dejaVu = new ArrayList<>();
+
+    // for (int i = 0; i < resA.size(); i++) {
+    // if (!dejaVu.contains(i)) {
+    // List<List<Integer>> vaList = resA.get(i);
+    // for (int j = i + 1; j < resA.size(); j++) {
+    // List<List<Integer>> test = resA.get(j);
+    // Long sous = 1l;
+    // for (int k = 0; k < 4; k++) {
+    // if (vaList.get(k).get(0) <= test.get(k).get(0)) {
+    // if (vaList.get(k).get(1) < test.get(k).get(0)) {
+    // sous *= 0;
+    // } else if (vaList.get(k).get(1) >= test.get(k).get(1)) {
+    // sous *= (test.get(k).get(1) - test.get(k).get(0)) + 1;
+    // } else {
+    // sous *= (vaList.get(k).get(1) - test.get(k).get(0)) + 1;
+    // }
+    // } else if (vaList.get(k).get(0) <= test.get(k).get(1)) {
+    // sous *= (test.get(k).get(1) - vaList.get(k).get(0)) + 1;
+    // } else {
+    // sous *= 0;
+    // }
+    // }
+    // if (sous != 0) {
+    // dejaVu.add(j);
+    // }
+    // }
+    // System.out.println(vaList);
+    // Long possibilite = 1l;
+    // for (List<Integer> list : vaList) {
+    // possibilite *= ((list.get(1) - list.get(0)) + 1);
+    // }
+    // res += possibilite;
+
+    // }
+    // }
+    // System.out.println(dejaVu);
 
     private static void calcul() {
         while (verif()) {
